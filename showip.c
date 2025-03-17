@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
-#include <sys.socket.h>
+#include <sys/socket.h>
 #include <netdb.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
@@ -14,16 +14,16 @@ int main(int argc, char *argv[])
 {
   struct addrinfo hints, *res, *p;
   int status;
-  char ipstr[INET6_ADDSTRLEN];
+  char ipstr[INET6_ADDRSTRLEN];
 
   if(argc != 2) {
     fprintf(stderr, "usage: showip hostname\n");
     return(1);
   }
 
-  memset(&hints,0 sizeof hints);
-  hints.ai.family = AF_UNSPEC; // AF_INET or AF_INET6
-  hints.ai.socktype = SOCK_STREAM;
+  memset(&hints,0, sizeof hints);
+  hints.ai_family = AF_UNSPEC; // AF_INET or AF_INET6
+  hints.ai_socktype = SOCK_STREAM;
 
   if((status = getaddrinfo(argv[1], NULL, &hints, &res)) != 0) {
     fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(status));
@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
       ipver = "IPv6";
     }
 
-    intet_ntop(p->ai_family, addr, ipstr, sizeof ipstr);
+    inet_ntop(p->ai_family, addr, ipstr, sizeof ipstr);
     printf("  %s: %s\n", ipver, ipstr);
   }
   freeaddrinfo(res);
